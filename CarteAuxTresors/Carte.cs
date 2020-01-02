@@ -15,19 +15,24 @@ namespace CarteAuxTresors
         public void Initialiser(int largeur, int hauteur)
         {
             Cases = new Case[largeur, hauteur];
-            for (int i = 0; i < largeur; i++)
-                for (int j = 0; j < hauteur; j++)
-                        Cases[i,j] = new Plaine();
+            
         }
 
-        public void Positionner(Coordonnees coordonnees, Case item)
+        public void Positionner(Position position, Case element)
         {
-            Cases[coordonnees.AxeHorizontal, coordonnees.AxeVertical] = item;
+            Cases[position.AxeHorizontal, position.AxeHorizontal] = element;
         }
 
-        public Case RecupererCase(Coordonnees coordonnees)
+        public Case Recuperer(Position position)
         {
-            return Cases[coordonnees.AxeHorizontal, coordonnees.AxeVertical];
+            try
+            {
+                return Cases[position.AxeHorizontal, position.AxeVertical];
+            }
+            catch (IndexOutOfRangeException)
+            {
+                return null;
+            }
         }
     }
 

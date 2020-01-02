@@ -32,7 +32,7 @@ namespace CarteAuxTresors
                         var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
                         var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
                         //Carte[axeHorizontal, axeVertical] = new Montagne();
-                        Carte.Positionner(new Coordonnees(axeHorizontal, axeVertical), new Montagne());
+                        Carte.Positionner(new Position(axeHorizontal, axeVertical), new Montagne());
                     }
                     else if (lignes[i].TypeCase == 'T')
                     {
@@ -40,7 +40,7 @@ namespace CarteAuxTresors
                         var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
                         var nombreTresors = int.Parse(lignes[i].ContenuCase[2]);
                         //Carte[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
-                        Carte.Positionner(new Coordonnees(axeHorizontal, axeVertical), new Tresor(nombreTresors));
+                        Carte.Positionner(new Position(axeHorizontal, axeVertical), new Tresor(nombreTresors));
                     }
                     else if (lignes[i].TypeCase == 'A')
                     {
@@ -49,11 +49,9 @@ namespace CarteAuxTresors
                         var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
                         var orientation = (Orientation)Enum.Parse(typeof(Orientation), lignes[i].ContenuCase[2]);
                         var sequenceMouvements = lignes[i].ContenuCase[3];
-                        var aventurier = new Aventurier(nom, new Coordonnees(axeHorizontal, axeVertical), orientation, sequenceMouvements);
-                        Carte.Positionner(new Coordonnees(axeHorizontal, axeVertical), aventurier);
-                        Aventuriers.Add(aventurier);
+                        Aventuriers.Add(new Aventurier(nom, new Position(axeHorizontal, axeVertical), orientation, sequenceMouvements));
                         //Aventuriers.Add(new Aventurier(Carte, new InformationsAventurier(
-                        //    nom, new Coordonnees(axeHorizontal, axeVertical), orientation, sequenceMouvements))
+                        //    nom, new Position(axeHorizontal, axeVertical), orientation, sequenceMouvements))
                     }
                 }
             }

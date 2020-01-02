@@ -2,13 +2,31 @@
 {
     public abstract class Case
     {
-        public bool EstLibre { get { return this is Plaine || this is Tresor} }
+        //public Position Position {get; set;}
+
+        //public Case(Position position)
+        //{
+        //    Position = position;
+        //}
+
+        private bool _aventurier;
+        public bool EstObstacle { get { return this is Montagne || _aventurier; } }
+
+        public void DepartAventurier()
+        {
+            _aventurier = false;
+        }
+
+        public void ArriveeAventurier()
+        {
+            _aventurier = true;
+        }
     }
 
-    public class Plaine : Case
-    {
+    //public class Plaine : Case
+    //{
 
-    }
+    //}
 
     public class Montagne : Case
     {
@@ -27,7 +45,7 @@
 
         public void Collecter(int nbTresors)
         {
-            _nbTresors -= nbTresors
+            _nbTresors -= nbTresors;
         }
     }
 

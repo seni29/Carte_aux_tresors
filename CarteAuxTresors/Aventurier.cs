@@ -14,21 +14,23 @@ namespace CarteAuxTresors
         TourAGauche = 'G'
     }
 
-    public class Aventurier : Case
+    public class Aventurier
+    //: Case
     {
-        //private static Case[,] _carte;
+        private Carte Carte { get { return Carte.Instance; } }
+        public Position Position { get; set; }
         private int _nbTresors;
 
         private string _nom;
 
-        public Coordonnees Coordonnees { get; set; }
         public Orientation Orientation { get; set; }
         public string Sequence { get; }
 
-        public Aventurier(string nom, Coordonnees coordonnees, Orientation orientation, string sequence)
+        public Aventurier(string nom, Position position, Orientation orientation, string sequence)
+        //: base(position)
         {
             _nom = nom;
-            Coordonnees = coordonnees;
+            Position = position;
             Orientation = orientation;
             Sequence = sequence;
         }
@@ -51,17 +53,21 @@ namespace CarteAuxTresors
 
         public void Avancer()
         {
-            var nouvellesCoordonnees = CalculerCoordonneesDestination();
+            var nouvellePosition = CalculerNouvellePosition();
             try
             {
-                var caseDestination = Carte.Instance.RecupererCase(nouvellesCoordonnees);
-                if (caseDestination.EstLibre)
-                {
-                    Coordonnees = nouvellesCoordonnees;
-                    if (caseDestination is Tresor)         
-                        CollecterTresor((Tresor)caseDestination);
-                    
-                }
+                var caseDestination = Carte.Recuperer(nouvellePosition);
+                if (caseDestination == null || caseDestination.EstObstacle)
+                    return;
+
+                var caseDepart = Carte.Recuperer(Position);
+                caseDepart.DepartAventurier();
+                Position = nouvellePosition;               
+                caseDestination.ArriveeAventurier();
+
+                if (caseDestination is Tresor)
+                    CollecterTresor((Tresor)caseDestination);
+
             }
             catch (IndexOutOfRangeException)
             {
@@ -76,10 +82,10 @@ namespace CarteAuxTresors
             _nbTresors++;
         }
 
-        private Coordonnees CalculerCoordonneesDestination()
+        private Position CalculerNouvellePosition()
         {
-            var axeHorizontal = Coordonnees.AxeHorizontal;
-            var axeVertical = Coordonnees.AxeVertical;
+            var axeHorizontal = Position.AxeHorizontal;
+            var axeVertical = Position.AxeVertical;
             switch (Orientation)
             {
                 case Orientation.N:
@@ -96,7 +102,7 @@ namespace CarteAuxTresors
                     break;
             }
 
-            return new Coordonnees(axeHorizontal, axeVertical);
+            return new Position(axeHorizontal, axeVertical);
 
         }
 
@@ -126,14 +132,14 @@ namespace CarteAuxTresors
     {
         //private string _nom;
 
-        //public Coordonnees Coordonnees { get; set; }
+        //public Position Position { get; set; }
         //public Orientation Orientation { get; set; }
         //public string Sequence { get; }
 
-        //public InformationsAventurier(string nom, Coordonnees coordonnees, Orientation orientation, string sequence)
+        //public InformationsAventurier(string nom, Position coordonnees, Orientation orientation, string sequence)
         //{
         //    _nom = nom;
-        //    Coordonnees = coordonnees;
+        //    Position = coordonnees;
         //    Orientation = orientation;
         //    Sequence = sequence;
         //}
@@ -179,12 +185,12 @@ namespace CarteAuxTresors
     }
 }
 
-public class Coordonnees
+public class Position
 {
     public int AxeHorizontal { get; set; }
     public int AxeVertical { get; set; }
 
-    public Coordonnees(int axeHorizontal, int axeVertical)
+    public Position(int axeHorizontal, int axeVertical)
     {
         AxeHorizontal = axeHorizontal;
         AxeVertical = axeVertical;
