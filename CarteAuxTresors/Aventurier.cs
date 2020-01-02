@@ -16,21 +16,27 @@ namespace CarteAuxTresors
 
     public class Aventurier : Case
     {
-        private static Case[,] _carte;
+        //private static Case[,] _carte;
         private int _nbTresors;
 
-        public InformationsAventurier Informations { get; set; }
+        private string _nom;
 
+        public Coordonnees Coordonnees { get; set; }
+        public Orientation Orientation { get; set; }
+        public string Sequence { get; }
 
-        public Aventurier(Case[,] carte, InformationsAventurier informations)
+        public Aventurier(string nom, Coordonnees coordonnees, Orientation orientation, string sequence)
         {
-            _carte = carte;
-            Informations = informations;
+            _nom = nom;
+            Coordonnees = coordonnees;
+            Orientation = orientation;
+            Sequence = sequence;
         }
+
 
         public void JouerTour(int indice)
         {
-            var action = (Action)Informations.Sequence[indice];
+            var action = (Action)Sequence[indice];
             switch (action)
             {
                 case Action.Avancer:
@@ -45,15 +51,13 @@ namespace CarteAuxTresors
 
         public void Avancer()
         {
-            //Informations.Deplacer(_carte);
-
-            var nouvellesCoordonnees = CalculerCoordonneesDestination(Informations);
+            var nouvellesCoordonnees = CalculerCoordonneesDestination();
             try
             {
-                var caseDestination = _carte[nouvellesCoordonnees.AxeHorizontal, nouvellesCoordonnees.AxeVertical];
+                var caseDestination = Carte.Instance.RecupererCase(nouvellesCoordonnees);
                 if (caseDestination.EstLibre)
                 {
-                    Informations.Coordonnees = nouvellesCoordonnees;
+                    Coordonnees = nouvellesCoordonnees;
                     if (caseDestination is Tresor)         
                         CollecterTresor((Tresor)caseDestination);
                     
@@ -72,12 +76,11 @@ namespace CarteAuxTresors
             _nbTresors++;
         }
 
-        private Coordonnees CalculerCoordonneesDestination(InformationsAventurier informations)
+        private Coordonnees CalculerCoordonneesDestination()
         {
-            var coordonnees = informations.Coordonnees;
-            var axeHorizontal = coordonnees.AxeHorizontal;
-            var axeVertical = coordonnees.AxeVertical;
-            switch (informations.Orientation)
+            var axeHorizontal = Coordonnees.AxeHorizontal;
+            var axeVertical = Coordonnees.AxeVertical;
+            switch (Orientation)
             {
                 case Orientation.N:
                     axeVertical--;
@@ -99,31 +102,6 @@ namespace CarteAuxTresors
 
         public void Tourner(Action action)
         {
-            Informations.ChangerOrientation(action);
-        }
-
-
-
-    }
-
-    public class InformationsAventurier
-    {
-        private string _nom;
-
-        public Coordonnees Coordonnees { get; set; }
-        public Orientation Orientation { get; set; }
-        public string Sequence { get; }
-
-        public InformationsAventurier(string nom, Coordonnees coordonnees, Orientation orientation, string sequence)
-        {
-            _nom = nom;
-            Coordonnees = coordonnees;
-            Orientation = orientation;
-            Sequence = sequence;
-        }
-
-        internal void ChangerOrientation(Action action)
-        {
             switch (action)
             {
                 case Action.TourADroite:
@@ -139,6 +117,44 @@ namespace CarteAuxTresors
             else if (Orientation < 0)
                 Orientation = (Orientation)3;
         }
+
+
+
+    }
+
+    public class InformationsAventurier
+    {
+        //private string _nom;
+
+        //public Coordonnees Coordonnees { get; set; }
+        //public Orientation Orientation { get; set; }
+        //public string Sequence { get; }
+
+        //public InformationsAventurier(string nom, Coordonnees coordonnees, Orientation orientation, string sequence)
+        //{
+        //    _nom = nom;
+        //    Coordonnees = coordonnees;
+        //    Orientation = orientation;
+        //    Sequence = sequence;
+        //}
+
+        //internal void ChangerOrientation(Action action)
+        //{
+        //    switch (action)
+        //    {
+        //        case Action.TourADroite:
+        //            Orientation++;
+        //            break;
+        //        case Action.TourAGauche:
+        //            Orientation--;
+        //            break;
+        //    }
+
+        //    if ((int)Orientation > 3)
+        //        Orientation = 0;
+        //    else if (Orientation < 0)
+        //        Orientation = (Orientation)3;
+        //}
 
         //public void Deplacer(Case[,] carte)
         //{
@@ -176,6 +192,6 @@ public class Coordonnees
 
 
 }
-}
+
 
 

@@ -10,61 +10,62 @@ namespace CarteAuxTresors
         {
             get
             {
-                return Aventuriers.Select(x => x.Informations.Sequence).Select(y => y.Length).Min();
+                return Aventuriers.Select(x => x.Sequence).Select(y => y.Length).Min();
             }
         }
         IList<Aventurier> Aventuriers { get; set; }
-        Case[,] Carte { get; set; }
+        Carte Carte { get; set; }
 
         public void Initialiser(IList<Ligne> lignes)
         {
-                if (lignes[0].TypeCase == 'C')
+            if (lignes[0].TypeCase == 'C')
+            {
+                var largeurCarte = int.Parse(lignes[0].ContenuCase[0]);
+                var hauteurCarte = int.Parse(lignes[0].ContenuCase[1]);
+                Carte = Carte.Instance;
+                Carte.Initialiser(largeurCarte, hauteurCarte);
+
+                for (int i = 1; i < lignes.Count; i++)
                 {
-                    var largeurCarte = int.Parse(lignes[0].ContenuCase[0]);
-                    var hauteurCarte = int.Parse(lignes[0].ContenuCase[1]);
-                    Carte = new Case[largeurCarte, hauteurCarte];
-
-                    for (int i = 1; i < lignes.Count; i++)
+                    if (lignes[i].TypeCase == 'M')
                     {
-                        if (lignes[i].TypeCase == 'M')
-                        {
-                            var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                            var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                            Carte[axeHorizontal, axeVertical] = new Montagne();
-                        }
-                        else if (lignes[i].TypeCase == 'T')
-                        {
-                            var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                            var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                            var nombreTresors = int.Parse(lignes[i].ContenuCase[2]);
-                            Carte[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
-                        }
-                        else if (lignes[i].TypeCase == 'A')
-                        {
-                            var nom = lignes[i].ContenuCase[0];
-                            var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                            var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                            var orientation = (Orientation)Enum.Parse(typeof(Orientation), lignes[i].ContenuCase[2]);
-                            var sequenceMouvements = lignes[i].ContenuCase[3]; 
-                            Aventuriers.Add(new Aventurier(Carte, new InformationsAventurier(
-                                nom, new Coordonnees(axeHorizontal, axeVertical), orientation, sequenceMouvements))
-                            );
-                        }
-              
-
+                        var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
+                        var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
+                        //Carte[axeHorizontal, axeVertical] = new Montagne();
+                        Carte.Positionner(new Coordonnees(axeHorizontal, axeVertical), new Montagne());
+                    }
+                    else if (lignes[i].TypeCase == 'T')
+                    {
+                        var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
+                        var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
+                        var nombreTresors = int.Parse(lignes[i].ContenuCase[2]);
+                        //Carte[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
+                        Carte.Positionner(new Coordonnees(axeHorizontal, axeVertical), new Tresor(nombreTresors));
+                    }
+                    else if (lignes[i].TypeCase == 'A')
+                    {
+                        var nom = lignes[i].ContenuCase[0];
+                        var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
+                        var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
+                        var orientation = (Orientation)Enum.Parse(typeof(Orientation), lignes[i].ContenuCase[2]);
+                        var sequenceMouvements = lignes[i].ContenuCase[3];
+                        var aventurier = new Aventurier(nom, new Coordonnees(axeHorizontal, axeVertical), orientation, sequenceMouvements);
+                        Carte.Positionner(new Coordonnees(axeHorizontal, axeVertical), aventurier);
+                        Aventuriers.Add(aventurier);
+                        //Aventuriers.Add(new Aventurier(Carte, new InformationsAventurier(
+                        //    nom, new Coordonnees(axeHorizontal, axeVertical), orientation, sequenceMouvements))
+                    }
                 }
-                    //Cases[1, 0] = new Montagne();
-                    //Cases[1, 2] = new Montagne();
-                    //Cases[3, 0] = new Tresor(2);
-                    //Cases[3, 1] = new Tresor(3);
+            }
 
-                    for (int i = 0; i < 3; i++)
-                        for (int j = 0; j < 4; j++)
-                            if (Carte[i, j] == null)
-                                Carte[i, j] = new Plaine();
-                }
+            //Cases[1, 0] = new Montagne();
+            //Cases[1, 2] = new Montagne();
+            //Cases[3, 0] = new Tresor(2);
+            //Cases[3, 1] = new Tresor(3);
+
             
         }
+
         public void Jouer()
         {
             for (int i = 0; i < NombreDeTours; i++)
@@ -76,7 +77,7 @@ namespace CarteAuxTresors
             }
 
         }
+
     }
-
-
+   
 }
