@@ -23,7 +23,7 @@ namespace CarteAuxTresors
 
     public class Ligne
     {
-        public Char TypeCase { get; set; }
+        public Char Type { get; set; }
         public List<string> ContenuCase { get; set; }
     }
 

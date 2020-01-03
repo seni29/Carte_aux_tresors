@@ -33,6 +33,7 @@ namespace CarteAuxTresors
             Position = position;
             Orientation = orientation;
             Sequence = sequence;
+            Carte.Recuperer(position).Occuper();
         }
 
 
@@ -61,9 +62,9 @@ namespace CarteAuxTresors
                     return;
 
                 var caseDepart = Carte.Recuperer(Position);
-                caseDepart.DepartAventurier();
+                caseDepart.Liberer();
                 Position = nouvellePosition;               
-                caseDestination.ArriveeAventurier();
+                caseDestination.Occuper();
 
                 if (caseDestination is Tresor)
                     CollecterTresor((Tresor)caseDestination);

@@ -9,24 +9,24 @@
         //    Position = position;
         //}
 
-        private bool _aventurier;
-        public bool EstObstacle { get { return this is Montagne || _aventurier; } }
+        private bool _libre;
+        public bool EstObstacle { get { return this is Montagne || !_libre; } }
 
-        public void DepartAventurier()
+        public void Liberer()
         {
-            _aventurier = false;
+            _libre = true;
         }
 
-        public void ArriveeAventurier()
+        public void Occuper()
         {
-            _aventurier = true;
+            _libre = false;
         }
     }
 
-    //public class Plaine : Case
-    //{
+    public class Plaine : Case
+    {
 
-    //}
+    }
 
     public class Montagne : Case
     {
