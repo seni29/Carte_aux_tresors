@@ -21,9 +21,11 @@ namespace CarteAuxTresors
 
     }
 
+
+    public enum TypeLigne { Carte='C', Montagne='M', Tresor='T', Aventurier= 'A' }
     public class Ligne
     {
-        public Char Type { get; set; }
+        public TypeLigne Type { get; set; }
         public List<string> ContenuCase { get; set; }
     }
 

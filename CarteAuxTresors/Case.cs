@@ -9,7 +9,7 @@
         //    Position = position;
         //}
 
-        private bool _libre;
+        private bool _libre =true;
         public bool EstObstacle { get { return this is Montagne || !_libre; } }
 
         public void Liberer()

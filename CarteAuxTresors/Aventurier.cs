@@ -15,9 +15,7 @@ namespace CarteAuxTresors
     }
 
     public class Aventurier
-    //: Case
     {
-        private Carte Carte { get { return Carte.Instance; } }
         public Position Position { get; set; }
         private int _nbTresors;
 
@@ -27,23 +25,21 @@ namespace CarteAuxTresors
         public string Sequence { get; }
 
         public Aventurier(string nom, Position position, Orientation orientation, string sequence)
-        //: base(position)
         {
             _nom = nom;
             Position = position;
             Orientation = orientation;
             Sequence = sequence;
-            Carte.Recuperer(position).Occuper();
         }
 
 
-        public void JouerTour(int indice)
+        public void JouerTour(Carte carte, int indice)
         {
             var action = (Action)Sequence[indice];
             switch (action)
             {
                 case Action.Avancer:
-                    Avancer();
+                    Avancer(carte);
                     break;
                 case Action.TourADroite:
                 case Action.TourAGauche:
@@ -52,16 +48,16 @@ namespace CarteAuxTresors
             }
         }
 
-        public void Avancer()
+        public void Avancer(Carte carte)
         {
             var nouvellePosition = CalculerNouvellePosition();
             try
             {
-                var caseDestination = Carte.Recuperer(nouvellePosition);
+                var caseDestination = carte.Recuperer(nouvellePosition);
                 if (caseDestination == null || caseDestination.EstObstacle)
                     return;
 
-                var caseDepart = Carte.Recuperer(Position);
+                var caseDepart = carte.Recuperer(Position);
                 caseDepart.Liberer();
                 Position = nouvellePosition;               
                 caseDestination.Occuper();
@@ -129,61 +125,6 @@ namespace CarteAuxTresors
 
     }
 
-    public class InformationsAventurier
-    {
-        //private string _nom;
-
-        //public Position Position { get; set; }
-        //public Orientation Orientation { get; set; }
-        //public string Sequence { get; }
-
-        //public InformationsAventurier(string nom, Position coordonnees, Orientation orientation, string sequence)
-        //{
-        //    _nom = nom;
-        //    Position = coordonnees;
-        //    Orientation = orientation;
-        //    Sequence = sequence;
-        //}
-
-        //internal void ChangerOrientation(Action action)
-        //{
-        //    switch (action)
-        //    {
-        //        case Action.TourADroite:
-        //            Orientation++;
-        //            break;
-        //        case Action.TourAGauche:
-        //            Orientation--;
-        //            break;
-        //    }
-
-        //    if ((int)Orientation > 3)
-        //        Orientation = 0;
-        //    else if (Orientation < 0)
-        //        Orientation = (Orientation)3;
-        //}
-
-        //public void Deplacer(Case[,] carte)
-        //{
-        //    var nouvellesCoordonnees = CalculerCoordonneesDestination();
-        //    try
-        //    {
-        //        var caseDestination = carte[nouvellesCoordonnees.AxeHorizontal, nouvellesCoordonnees.AxeVertical];
-        //        if (caseDestination.EstLibre)
-        //        {
-        //            _coordonnees = nouvellesCoordonnees;
-        //            if(caseDestination)
-        //        }
-        //    }
-        //    catch(IndexOutOfRangeException ex)
-        //    {
-
-        //    }
-
-        //}
-
-
-    }
 }
 
 public class Position

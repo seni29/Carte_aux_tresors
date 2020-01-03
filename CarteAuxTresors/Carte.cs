@@ -13,10 +13,9 @@ namespace CarteAuxTresors
 
         public Case[,] Cases { get; set; }
 
-        public void Initialiser(IList<Ligne> lignes)
+        public Carte Initialiser(IList<Ligne> lignes)
         {
-
-            if (lignes[0].Type == 'C')
+            if (lignes[0].Type == TypeLigne.Carte)
             {
                 var largeur = int.Parse(lignes[0].ContenuCase[0]);
                 var hauteur = int.Parse(lignes[0].ContenuCase[1]);
@@ -24,13 +23,13 @@ namespace CarteAuxTresors
 
                 for (int i = 1; i < lignes.Count; i++)
                 {
-                    if (lignes[i].Type == 'M')
+                    if (lignes[i].Type == TypeLigne.Montagne)
                     {
                         var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
                         var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
                         Cases[axeHorizontal, axeVertical] = new Montagne();
                     }
-                    else if (lignes[i].Type == 'T')
+                    else if (lignes[i].Type == TypeLigne.Tresor)
                     {
                         var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
                         var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
@@ -45,6 +44,7 @@ namespace CarteAuxTresors
                         if (Cases[i, j] == null)
                             Cases[i, j] = new Plaine();
             }
+            return this;
         }
         //public void Initialiser(int largeur, int hauteur)
         //{

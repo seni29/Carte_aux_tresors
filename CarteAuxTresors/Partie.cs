@@ -23,14 +23,14 @@ namespace CarteAuxTresors
 
         }
 
-        private static void InitialiserCarte(IList<Ligne> lignes)
+        private void InitialiserCarte(IList<Ligne> lignes)
         {
-            Carte.Instance.Initialiser(lignes);
+            Carte = Carte.Instance.Initialiser(lignes);
         }
 
         private void InitialiserAventuriers(IList<Ligne> lignes)
         {
-            var lignesAventuriers = lignes.Where(x => x.Type == 'A');
+            var lignesAventuriers = lignes.Where(x => x.Type == TypeLigne.Aventurier);
             foreach (var ligne in lignesAventuriers)
             {
                 var nom = ligne.ContenuCase[0];
@@ -38,8 +38,9 @@ namespace CarteAuxTresors
                 var axeVertical = int.Parse(ligne.ContenuCase[1]);
                 var orientation = (Orientation)Enum.Parse(typeof(Orientation), ligne.ContenuCase[2]);
                 var sequenceMouvements = ligne.ContenuCase[3];
-                Aventuriers.Add(new Aventurier(nom, new Position(axeHorizontal, axeVertical), orientation, sequenceMouvements));
-
+                var position = new Position(axeHorizontal, axeVertical);
+                Aventuriers.Add(new Aventurier(nom, position, orientation, sequenceMouvements));
+                Carte.Recuperer(position).Occuper();
             }
         }
 
@@ -49,7 +50,7 @@ namespace CarteAuxTresors
             {
                 foreach (Aventurier aventurier in Aventuriers)
                 {
-                    aventurier.JouerTour(i);
+                    aventurier.JouerTour(Carte, i);
                 }
             }
 
