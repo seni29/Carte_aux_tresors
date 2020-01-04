@@ -22,6 +22,8 @@ namespace CarteAuxTresors.Tests
                   //new Ligne{Type='A', ContenuCase=new List<string>{"Indiana", "1", "1", debut, "AADADA"}},
               });
 
+            _carte.Recuperer(new Position(0, 1)).Occuper();
+
         }
 
         [DataRow(Orientation.N, Action.TourADroite, Orientation.E)]
@@ -56,10 +58,11 @@ namespace CarteAuxTresors.Tests
         [DataRow(Orientation.N, 2, 3, 2, 2)]
         [DataRow(Orientation.E, 1, 2, 2, 2)]
         [DataRow(Orientation.S, 1, 1, 1, 2)]
-        [DataRow(Orientation.O, 1, 1, 0, 1)]
+        [DataRow(Orientation.O, 1, 2, 0, 2)]
         [DataRow(Orientation.N, 1, 1, 1, 1)]
         [DataRow(Orientation.N, 0, 0, 0, 0)]
         [DataRow(Orientation.S, 2, 3, 2, 3)]
+        [DataRow(Orientation.S, 0, 0, 0, 0)]
         [DataTestMethod]
         public void VerifierAvancee(Orientation orientation, int horizDep, int vertDep, int horizDest, int vertDest)
         {
@@ -70,14 +73,16 @@ namespace CarteAuxTresors.Tests
             Assert.AreEqual(vertDest, aventurier.Position.AxeVertical);
         }
 
-        //[DataTestMethod]
-        //public void VerifierCollecteTresor()
-        //{
-        //    var aventurier = new Aventurier("Indiana", new Position(1, 3), Orientation.N, "AADADA");
+        [DataTestMethod]
+        public void VerifierCollecteTresor()
+        {
+            var aventurier = new Aventurier("Indiana", new Position(1, 2), Orientation.S, "AADADA");
+            Assert.AreEqual(0, aventurier.NbTresors);
+            aventurier.Avancer(_carte);
+            Assert.AreEqual(1, aventurier.NbTresors);
 
-        //    aventurier.Avancer(_carte);
-        //    Assert.AreEqual(horizDest, aventurier.Position.AxeHorizontal);
-        //    Assert.AreEqual(vertDest, aventurier.Position.AxeVertical);
-        //}
+            var tresor = (Tresor)_carte.Recuperer(new Position(1, 3));
+            Assert.AreEqual(2, tresor.NbTresors);
+        }
     }
 }

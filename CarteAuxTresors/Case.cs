@@ -36,16 +36,16 @@
 
     public class Tresor : Case
     {
-        private int _nbTresors;
-
         public Tresor(int nbTresors)
         {
-            _nbTresors = nbTresors;
+            NbTresors = nbTresors;
         }
+
+        public int NbTresors { get; set; }
 
         public void Collecter(int nbTresors)
         {
-            _nbTresors -= nbTresors;
+            NbTresors -= nbTresors;
         }
     }
 

@@ -17,12 +17,12 @@ namespace CarteAuxTresors
     public class Aventurier
     {
         public Position Position { get; set; }
-        private int _nbTresors;
 
         private string _nom;
 
         public Orientation Orientation { get; set; }
         public string Sequence { get; }
+        public int NbTresors { get; set; }
 
         public Aventurier(string nom, Position position, Orientation orientation, string sequence)
         {
@@ -75,8 +75,10 @@ namespace CarteAuxTresors
 
         private void CollecterTresor(Tresor tresor)
         {
+            if (tresor.NbTresors == 0)
+                return;
             tresor.Collecter(1);
-            _nbTresors++;
+            NbTresors++;
         }
 
         private Position CalculerNouvellePosition()
