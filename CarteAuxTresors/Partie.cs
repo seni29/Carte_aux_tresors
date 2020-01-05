@@ -6,6 +6,8 @@ namespace CarteAuxTresors
 {
     public class Partie
     {
+        private IFournisseur _fournisseur;
+
         public int NombreDeTours
         {
             get
@@ -13,14 +15,19 @@ namespace CarteAuxTresors
                 return Aventuriers.Select(x => x.Sequence).Select(y => y.Length).Min();
             }
         }
-        IList<Aventurier> Aventuriers { get; set; }
-        Carte Carte { get; set; }
+        public IList<Aventurier> Aventuriers { get; set; } = new List<Aventurier>();
+        public Carte Carte { get; set; }
 
-        public void Initialiser(IList<Ligne> lignes)
+        public Partie(IFournisseur fournisseur)
         {
+            _fournisseur = fournisseur;
+        }
+        public Partie Initialiser()
+        {
+            var lignes = _fournisseur.RecupererDonnees();
             InitialiserCarte(lignes);
             InitialiserAventuriers(lignes);
-
+            return this;
         }
 
         private void InitialiserCarte(IList<Ligne> lignes)
@@ -34,13 +41,12 @@ namespace CarteAuxTresors
             foreach (var ligne in lignesAventuriers)
             {
                 var nom = ligne.ContenuCase[0];
-                var axeHorizontal = int.Parse(ligne.ContenuCase[0]);
-                var axeVertical = int.Parse(ligne.ContenuCase[1]);
-                var orientation = (Orientation)Enum.Parse(typeof(Orientation), ligne.ContenuCase[2]);
-                var sequenceMouvements = ligne.ContenuCase[3];
+                var axeHorizontal = int.Parse(ligne.ContenuCase[1]);
+                var axeVertical = int.Parse(ligne.ContenuCase[2]);
+                var orientation = (Orientation)Enum.Parse(typeof(Orientation), ligne.ContenuCase[3]);
+                var sequenceMouvements = ligne.ContenuCase[4];
                 var position = new Position(axeHorizontal, axeVertical);
                 Aventuriers.Add(new Aventurier(nom, position, orientation, sequenceMouvements));
-                Carte.Recuperer(position).Occuper();
             }
         }
 

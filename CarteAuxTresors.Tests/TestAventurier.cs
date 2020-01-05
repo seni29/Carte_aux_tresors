@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace CarteAuxTresors.Tests
 {
     [TestClass]
-    public class UnitTest1
+    public class TestAventurier
     {
         private Carte _carte;
 
@@ -19,10 +19,9 @@ namespace CarteAuxTresors.Tests
                     new Ligne{Type=TypeLigne.Montagne, ContenuCase=new List<string>{"2", "1"}},
                     new Ligne{Type=TypeLigne.Tresor, ContenuCase=new List<string>{"0", "3", "2"}},
                     new Ligne{Type=TypeLigne.Tresor, ContenuCase=new List<string>{"1", "3", "3"}},
-                  //new Ligne{Type='A', ContenuCase=new List<string>{"Indiana", "1", "1", debut, "AADADA"}},
+                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
+                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Luca", "0", "1", "S", "AADADA"}},
               });
-
-            _carte.Recuperer(new Position(0, 1)).Occuper();
 
         }
 
@@ -43,34 +42,38 @@ namespace CarteAuxTresors.Tests
         }
 
 
-        //[DataRow(Orientation.N, Orientation.O)]
-        //[DataRow(Orientation.O, Orientation.S)]
-        //[DataRow(Orientation.S, Orientation.E)]
-        //[DataRow(Orientation.E, Orientation.N)]
-        //[DataTestMethod]
-        //public void VerifierTourAGauche(Orientation debut, Orientation fin)
-        //{
-        //    var aventurier = new Aventurier("Indiana", 1, 1, debut, "AADADA");
-        //    aventurier.TournerAGauche();
-        //    Assert.AreEqual(aventurier.Orientation, fin);
-        //}
 
         [DataRow(Orientation.N, 2, 3, 2, 2)]
         [DataRow(Orientation.E, 1, 2, 2, 2)]
         [DataRow(Orientation.S, 1, 1, 1, 2)]
         [DataRow(Orientation.O, 1, 2, 0, 2)]
-        [DataRow(Orientation.N, 1, 1, 1, 1)]
-        [DataRow(Orientation.N, 0, 0, 0, 0)]
-        [DataRow(Orientation.S, 2, 3, 2, 3)]
-        [DataRow(Orientation.S, 0, 0, 0, 0)]
         [DataTestMethod]
-        public void VerifierAvancee(Orientation orientation, int horizDep, int vertDep, int horizDest, int vertDest)
+        public void AventurierPeutAvancer(Orientation orientation, int horizDep, int vertDep, int horizDest, int vertDest)
         {
             var aventurier = new Aventurier("Indiana", new Position(horizDep, vertDep), orientation, "AADADA");
 
             aventurier.Avancer(_carte);
+
             Assert.AreEqual(horizDest, aventurier.Position.AxeHorizontal);
             Assert.AreEqual(vertDest, aventurier.Position.AxeVertical);
+            var caseDepart = _carte.Recuperer(new Position(horizDep, vertDep));
+            var caseArrivee = _carte.Recuperer(new Position(horizDest, vertDest));
+            Assert.IsTrue(caseDepart.EstLibre);
+            Assert.IsFalse(caseArrivee.EstLibre);
+        }
+
+        [DataRow(Orientation.N, 1, 1)]
+        [DataRow(Orientation.N, 0, 0)]
+        [DataRow(Orientation.S, 2, 3)]
+        [DataRow(Orientation.S, 0, 0)]
+        [DataTestMethod]
+        public void AventurierNePeutPasAvancer(Orientation orientation, int horizDep, int vertDep)
+        {
+            var aventurier = new Aventurier("Indiana", new Position(horizDep, vertDep), orientation, "AADADA");
+
+            aventurier.Avancer(_carte);
+            Assert.AreEqual(horizDep, aventurier.Position.AxeHorizontal);
+            Assert.AreEqual(vertDep, aventurier.Position.AxeVertical);
         }
 
         [DataTestMethod]

@@ -23,20 +23,35 @@ namespace CarteAuxTresors
 
                 for (int i = 1; i < lignes.Count; i++)
                 {
-                    if (lignes[i].Type == TypeLigne.Montagne)
+                    switch (lignes[i].Type)
                     {
-                        var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                        var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                        Cases[axeHorizontal, axeVertical] = new Montagne();
+                        case TypeLigne.Montagne:
+                            {
+                                var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
+                                var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
+                                Cases[axeHorizontal, axeVertical] = new Montagne();
+                                break;
+                            }
+
+                        case TypeLigne.Tresor:
+                            {
+                                var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
+                                var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
+                                var nombreTresors = int.Parse(lignes[i].ContenuCase[2]);
+                                Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
+                                break;
+                            }
+                        case TypeLigne.Aventurier:
+                            {
+                                var axeHorizontal = int.Parse(lignes[i].ContenuCase[1]);
+                                var axeVertical = int.Parse(lignes[i].ContenuCase[2]);
+                                if (Cases[axeHorizontal, axeVertical] == null)
+                                    Cases[axeHorizontal, axeVertical] = new Plaine();
+                                Cases[axeHorizontal, axeVertical].Occuper();
+                                break;
+                            }
                     }
-                    else if (lignes[i].Type == TypeLigne.Tresor)
-                    {
-                        var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                        var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                        var nombreTresors = int.Parse(lignes[i].ContenuCase[2]);
-                        Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
-                    }
-                   
+
                 }
 
                 for (int i = 0; i < largeur; i++)
@@ -52,10 +67,10 @@ namespace CarteAuxTresors
             
         //}
 
-        public void Positionner(Position position, Case element)
-        {
-            Cases[position.AxeHorizontal, position.AxeHorizontal] = element;
-        }
+        //public void Positionner(Position position, Case element)
+        //{
+        //    Cases[position.AxeHorizontal, position.AxeHorizontal] = element;
+        //}
 
        
 

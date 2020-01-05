@@ -8,8 +8,8 @@ namespace CarteAuxTresors
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
-            var partie = new Partie();
-            //partie.Initialiser();
+            var partie = new Partie(new Fichier());
+            partie.Initialiser();
 
             //var carte = new Carte();
             //carte.Initialiser();

@@ -2,24 +2,18 @@
 {
     public abstract class Case
     {
-        //public Position Position {get; set;}
+        public bool EstObstacle { get { return this is Montagne || !EstLibre; } }
 
-        //public Case(Position position)
-        //{
-        //    Position = position;
-        //}
-
-        private bool _libre =true;
-        public bool EstObstacle { get { return this is Montagne || !_libre; } }
+        public bool EstLibre { get; set; } = true;
 
         public void Liberer()
         {
-            _libre = true;
+            EstLibre = true;
         }
 
         public void Occuper()
         {
-            _libre = false;
+            EstLibre = false;
         }
     }
 
