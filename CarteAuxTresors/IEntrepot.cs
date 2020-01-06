@@ -2,7 +2,7 @@
 
 namespace CarteAuxTresors
 {
-    public interface IFournisseur
+    public interface IEntrepot
     {
         IList<Ligne> RecupererDonnees();
     }

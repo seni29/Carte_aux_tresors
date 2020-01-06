@@ -2,7 +2,7 @@
 
 namespace CarteAuxTresors
 {
-    public class Fichier : IFournisseur
+    public class Fichier : IEntrepot
     {
         public IList<Ligne> RecupererDonnees()
         {

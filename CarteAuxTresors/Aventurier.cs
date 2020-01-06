@@ -17,25 +17,23 @@ namespace CarteAuxTresors
     public class Aventurier
     {
         public Position Position { get; set; }
-
-        private string _nom;
-
         public Orientation Orientation { get; set; }
         public string Sequence { get; }
         public int NbTresors { get; set; }
+        public string Nom { get; set; }
 
         public Aventurier(string nom, Position position, Orientation orientation, string sequence)
         {
-            _nom = nom;
+            Nom = nom;
             Position = position;
             Orientation = orientation;
             Sequence = sequence;
         }
 
 
-        public void JouerTour(Carte carte, int indice)
+        public void JouerTour(Carte carte, int tour)
         {
-            var action = (Action)Sequence[indice];
+            var action = (Action)Sequence[tour];
             switch (action)
             {
                 case Action.Avancer:

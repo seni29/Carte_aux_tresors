@@ -6,7 +6,7 @@ namespace CarteAuxTresors
 {
     public class Partie
     {
-        private IFournisseur _fournisseur;
+        private IEntrepot _entrepot;
 
         public int NombreDeTours
         {
@@ -18,16 +18,79 @@ namespace CarteAuxTresors
         public IList<Aventurier> Aventuriers { get; set; } = new List<Aventurier>();
         public Carte Carte { get; set; }
 
-        public Partie(IFournisseur fournisseur)
+        public Partie(IEntrepot entrepot)
         {
-            _fournisseur = fournisseur;
+            _entrepot = entrepot;
         }
         public Partie Initialiser()
         {
-            var lignes = _fournisseur.RecupererDonnees();
+            var lignes = _entrepot.RecupererDonnees();
             InitialiserCarte(lignes);
             InitialiserAventuriers(lignes);
             return this;
+        }
+
+        public void Jouer()
+        {
+            for (int i = 0; i < NombreDeTours; i++)
+            {
+                foreach (Aventurier aventurier in Aventuriers)
+                {
+                    aventurier.JouerTour(Carte, i);
+                }
+            }
+
+        }
+
+        public IList<Ligne> Resultat()
+        {
+            var cases = Carte.Cases;
+            var lignes = new List<Ligne>();
+            int largeur = cases.GetLength(0);
+            int hauteur = cases.GetLength(1);
+            var dimensions = new Ligne
+            {
+                Type = TypeLigne.Carte,
+                ContenuCase = new List<string> { largeur.ToString(), hauteur.ToString() }
+            };
+            lignes.Add(dimensions);
+
+            for (int i = 0; i < hauteur; i++)
+                for (int j = 0; j < largeur; j++)
+                {
+                    if (cases[j,i] is Montagne)
+                        lignes.Add(new Ligne
+                        {
+                            Type = TypeLigne.Montagne,
+                            ContenuCase = new List<string> { j.ToString(), i.ToString() }
+                        });
+                    else if (cases[j,i] is Tresor)
+                    {
+                        var tresor = (Tresor)cases[j, i];
+                        if (tresor.EstLibre && tresor.NbTresors > 0)
+                            lignes.Add(new Ligne
+                            {
+                                Type = TypeLigne.Tresor,
+                                ContenuCase = new List<string> { j.ToString(), i.ToString(), tresor.NbTresors.ToString() }
+                            });
+                    }
+                }
+
+            foreach (var aventurier in Aventuriers)
+                lignes.Add(new Ligne
+                {
+                    Type = TypeLigne.Aventurier,
+                    ContenuCase = new List<string> {
+                        aventurier.Nom,
+                        aventurier.Position.AxeHorizontal.ToString(),
+                        aventurier.Position.AxeVertical.ToString(),
+                        aventurier.Orientation.ToString(),
+                        aventurier.NbTresors.ToString()
+                    }
+                });
+
+            return lignes;
+
         }
 
         private void InitialiserCarte(IList<Ligne> lignes)
@@ -50,18 +113,8 @@ namespace CarteAuxTresors
             }
         }
 
-        public void Jouer()
-        {
-            for (int i = 0; i < NombreDeTours; i++)
-            {
-                foreach (Aventurier aventurier in Aventuriers)
-                {
-                    aventurier.JouerTour(Carte, i);
-                }
-            }
 
-        }
 
     }
-   
+
 }
