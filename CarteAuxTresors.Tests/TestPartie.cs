@@ -84,6 +84,8 @@ namespace CarteAuxTresors.Tests
             Assert.AreEqual(2, ((Tresor)carte.Cases[1, 3]).NbTresors);
 
             var resultat = partie.Resultat();
+
+            Assert.AreEqual(6, resultat.Count);
             Assert.AreEqual(TypeLigne.Carte, resultat[0].Type);
             Assert.AreEqual("3", resultat[0].ContenuCase[0]);
             Assert.AreEqual("4", resultat[0].ContenuCase[1]);
@@ -100,6 +102,20 @@ namespace CarteAuxTresors.Tests
             Assert.AreEqual("1", resultat[3].ContenuCase[0]);
             Assert.AreEqual("3", resultat[3].ContenuCase[1]);
             Assert.AreEqual("2", resultat[3].ContenuCase[2]);
+
+            Assert.AreEqual(TypeLigne.Aventurier, resultat[4].Type);
+            Assert.AreEqual("Indiana", resultat[4].ContenuCase[0]);
+            Assert.AreEqual("0", resultat[4].ContenuCase[1]);
+            Assert.AreEqual("3", resultat[4].ContenuCase[2]);
+            Assert.AreEqual("S", resultat[4].ContenuCase[3]);
+            Assert.AreEqual("3", resultat[4].ContenuCase[4]);
+
+            Assert.AreEqual(TypeLigne.Aventurier, resultat[5].Type);
+            Assert.AreEqual("Lara", resultat[5].ContenuCase[0]);
+            Assert.AreEqual("0", resultat[5].ContenuCase[1]);
+            Assert.AreEqual("1", resultat[5].ContenuCase[2]);
+            Assert.AreEqual("N", resultat[5].ContenuCase[3]);
+            Assert.AreEqual("0", resultat[5].ContenuCase[4]);
         }
 
 
