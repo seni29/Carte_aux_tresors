@@ -22,7 +22,7 @@ namespace CarteAuxTresors
     }
 
 
-    public enum TypeLigne { Carte='C', Montagne='M', Tresor='T', Aventurier= 'A' }
+    public enum TypeLigne { C, M, T, A}
     public class Ligne
     {
         public TypeLigne Type { get; set; }

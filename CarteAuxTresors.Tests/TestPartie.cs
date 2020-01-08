@@ -12,14 +12,14 @@ namespace CarteAuxTresors.Tests
         public void VerifierInitialisation()
         {
             var entrepot = Mock.Of<IEntrepot>();
-            Mock.Get(entrepot).Setup(x => x.RecupererDonnees()).Returns(
+            Mock.Get(entrepot).Setup(x => x.RecupererDonnees(It.IsAny<string>())).Returns(
                  new List<Ligne>
               {
-                    new Ligne{Type=TypeLigne.Carte, ContenuCase=new List<string>{"3", "4"}},
-                    new Ligne{Type=TypeLigne.Montagne, ContenuCase=new List<string>{"1", "0"}},
-                    new Ligne{Type=TypeLigne.Tresor, ContenuCase=new List<string>{"1", "3", "3"}},
-                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
-                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Lara", "2", "3", "N", "AAGAG"}},
+                    new Ligne{Type=TypeLigne.C, ContenuCase=new List<string>{"3", "4"}},
+                    new Ligne{Type=TypeLigne.M, ContenuCase=new List<string>{"1", "0"}},
+                    new Ligne{Type=TypeLigne.T, ContenuCase=new List<string>{"1", "3", "3"}},
+                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
+                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Lara", "2", "3", "N", "AAGAG"}},
               });
 
             var partie = new Partie(entrepot).Initialiser();
@@ -50,16 +50,16 @@ namespace CarteAuxTresors.Tests
         public void VerifierJeu()
         {
             var entrepot = Mock.Of<IEntrepot>();
-            Mock.Get(entrepot).Setup(x => x.RecupererDonnees()).Returns(
+            Mock.Get(entrepot).Setup(x => x.RecupererDonnees(It.IsAny<string>())).Returns(
                  new List<Ligne>
               {
-                    new Ligne{Type=TypeLigne.Carte, ContenuCase=new List<string>{"3", "4"}},
-                    new Ligne{Type=TypeLigne.Montagne, ContenuCase=new List<string>{"1", "0"}},
-                    new Ligne{Type=TypeLigne.Montagne, ContenuCase=new List<string>{"2", "1"}},
-                    new Ligne{Type=TypeLigne.Tresor, ContenuCase=new List<string>{"0", "3", "2"}},
-                    new Ligne{Type=TypeLigne.Tresor, ContenuCase=new List<string>{"1", "3", "3"}},
-                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADAGGA"}},
-                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Lara", "0", "0", "S", "AAGAGAGAD"}},
+                    new Ligne{Type=TypeLigne.C, ContenuCase=new List<string>{"3", "4"}},
+                    new Ligne{Type=TypeLigne.M, ContenuCase=new List<string>{"1", "0"}},
+                    new Ligne{Type=TypeLigne.M, ContenuCase=new List<string>{"2", "1"}},
+                    new Ligne{Type=TypeLigne.T, ContenuCase=new List<string>{"0", "3", "2"}},
+                    new Ligne{Type=TypeLigne.T, ContenuCase=new List<string>{"1", "3", "3"}},
+                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADAGGA"}},
+                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Lara", "0", "0", "S", "AAGAGAGAD"}},
               });
 
             var partie = new Partie(entrepot).Initialiser();
@@ -86,31 +86,31 @@ namespace CarteAuxTresors.Tests
             var resultat = partie.Resultat();
 
             Assert.AreEqual(6, resultat.Count);
-            Assert.AreEqual(TypeLigne.Carte, resultat[0].Type);
+            Assert.AreEqual(TypeLigne.C, resultat[0].Type);
             Assert.AreEqual("3", resultat[0].ContenuCase[0]);
             Assert.AreEqual("4", resultat[0].ContenuCase[1]);
 
-            Assert.AreEqual(TypeLigne.Montagne, resultat[1].Type);
+            Assert.AreEqual(TypeLigne.M, resultat[1].Type);
             Assert.AreEqual("1", resultat[1].ContenuCase[0]);
             Assert.AreEqual("0", resultat[1].ContenuCase[1]);
 
-            Assert.AreEqual(TypeLigne.Montagne, resultat[2].Type);
+            Assert.AreEqual(TypeLigne.M, resultat[2].Type);
             Assert.AreEqual("2", resultat[2].ContenuCase[0]);
             Assert.AreEqual("1", resultat[2].ContenuCase[1]);
 
-            Assert.AreEqual(TypeLigne.Tresor, resultat[3].Type);
+            Assert.AreEqual(TypeLigne.T, resultat[3].Type);
             Assert.AreEqual("1", resultat[3].ContenuCase[0]);
             Assert.AreEqual("3", resultat[3].ContenuCase[1]);
             Assert.AreEqual("2", resultat[3].ContenuCase[2]);
 
-            Assert.AreEqual(TypeLigne.Aventurier, resultat[4].Type);
+            Assert.AreEqual(TypeLigne.A, resultat[4].Type);
             Assert.AreEqual("Indiana", resultat[4].ContenuCase[0]);
             Assert.AreEqual("0", resultat[4].ContenuCase[1]);
             Assert.AreEqual("3", resultat[4].ContenuCase[2]);
             Assert.AreEqual("S", resultat[4].ContenuCase[3]);
             Assert.AreEqual("3", resultat[4].ContenuCase[4]);
 
-            Assert.AreEqual(TypeLigne.Aventurier, resultat[5].Type);
+            Assert.AreEqual(TypeLigne.A, resultat[5].Type);
             Assert.AreEqual("Lara", resultat[5].ContenuCase[0]);
             Assert.AreEqual("0", resultat[5].ContenuCase[1]);
             Assert.AreEqual("1", resultat[5].ContenuCase[2]);

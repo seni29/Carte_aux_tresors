@@ -15,7 +15,7 @@ namespace CarteAuxTresors
 
         public Carte Initialiser(IList<Ligne> lignes)
         {
-            if (lignes[0].Type == TypeLigne.Carte)
+            if (lignes[0].Type == TypeLigne.C)
             {
                 var largeur = int.Parse(lignes[0].ContenuCase[0]);
                 var hauteur = int.Parse(lignes[0].ContenuCase[1]);
@@ -25,7 +25,7 @@ namespace CarteAuxTresors
                 {
                     switch (lignes[i].Type)
                     {
-                        case TypeLigne.Montagne:
+                        case TypeLigne.M:
                             {
                                 var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
                                 var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
@@ -33,7 +33,7 @@ namespace CarteAuxTresors
                                 break;
                             }
 
-                        case TypeLigne.Tresor:
+                        case TypeLigne.T:
                             {
                                 var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
                                 var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
@@ -41,7 +41,7 @@ namespace CarteAuxTresors
                                 Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
                                 break;
                             }
-                        case TypeLigne.Aventurier:
+                        case TypeLigne.A:
                             {
                                 var axeHorizontal = int.Parse(lignes[i].ContenuCase[1]);
                                 var axeVertical = int.Parse(lignes[i].ContenuCase[2]);

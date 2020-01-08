@@ -22,14 +22,14 @@ namespace CarteAuxTresors
             throw new System.NotImplementedException();
         }
 
-        public IList<Ligne> RecupererDonnees()
+        public IList<Ligne> RecupererDonnees(string fichierPath)
         {
             var lignes = new List<Ligne>();
-            using (StreamReader inputReader = _fileSystem.File.OpenText(""))
+            using (StreamReader inputReader = _fileSystem.File.OpenText(fichierPath))
             {
                 while (!inputReader.EndOfStream)
                 {
-                    var lines = inputReader.ReadLine().Split('-').ToList();
+                    var lines = inputReader.ReadLine().Split(" - ").ToList();
                     try
                     {
                         var type = (TypeLigne)Enum.Parse(typeof(TypeLigne), lines[0]);

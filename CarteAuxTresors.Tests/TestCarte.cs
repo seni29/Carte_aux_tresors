@@ -12,10 +12,10 @@ namespace CarteAuxTresors.Tests
             var carte = Carte.Instance.Initialiser(
               new List<Ligne>
               {
-                    new Ligne{Type=TypeLigne.Carte, ContenuCase=new List<string>{"3", "4"}},
-                    new Ligne{Type=TypeLigne.Montagne, ContenuCase=new List<string>{"1", "0"}},
-                    new Ligne{Type=TypeLigne.Tresor, ContenuCase=new List<string>{"0", "3", "2"}},
-                    new Ligne{Type=TypeLigne.Aventurier, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
+                    new Ligne{Type=TypeLigne.C, ContenuCase=new List<string>{"3", "4"}},
+                    new Ligne{Type=TypeLigne.M, ContenuCase=new List<string>{"1", "0"}},
+                    new Ligne{Type=TypeLigne.T, ContenuCase=new List<string>{"0", "3", "2"}},
+                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
               });
 
             var cases = carte.Cases;

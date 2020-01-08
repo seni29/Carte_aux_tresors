@@ -24,7 +24,7 @@ namespace CarteAuxTresors
         }
         public Partie Initialiser()
         {
-            var lignes = _entrepot.RecupererDonnees();
+            var lignes = _entrepot.RecupererDonnees("");
             InitialiserCarte(lignes);
             InitialiserAventuriers(lignes);
             return this;
@@ -50,7 +50,7 @@ namespace CarteAuxTresors
             int hauteur = cases.GetLength(1);
             var dimensions = new Ligne
             {
-                Type = TypeLigne.Carte,
+                Type = TypeLigne.C,
                 ContenuCase = new List<string> { largeur.ToString(), hauteur.ToString() }
             };
             lignes.Add(dimensions);
@@ -61,7 +61,7 @@ namespace CarteAuxTresors
                     if (cases[j,i] is Montagne)
                         lignes.Add(new Ligne
                         {
-                            Type = TypeLigne.Montagne,
+                            Type = TypeLigne.M,
                             ContenuCase = new List<string> { j.ToString(), i.ToString() }
                         });
                     else if (cases[j,i] is Tresor)
@@ -70,7 +70,7 @@ namespace CarteAuxTresors
                         if (tresor.EstLibre && tresor.NbTresors > 0)
                             lignes.Add(new Ligne
                             {
-                                Type = TypeLigne.Tresor,
+                                Type = TypeLigne.T,
                                 ContenuCase = new List<string> { j.ToString(), i.ToString(), tresor.NbTresors.ToString() }
                             });
                     }
@@ -79,7 +79,7 @@ namespace CarteAuxTresors
             foreach (var aventurier in Aventuriers)
                 lignes.Add(new Ligne
                 {
-                    Type = TypeLigne.Aventurier,
+                    Type = TypeLigne.A,
                     ContenuCase = new List<string> {
                         aventurier.Nom,
                         aventurier.Position.AxeHorizontal.ToString(),
@@ -100,7 +100,7 @@ namespace CarteAuxTresors
 
         private void InitialiserAventuriers(IList<Ligne> lignes)
         {
-            var lignesAventuriers = lignes.Where(x => x.Type == TypeLigne.Aventurier);
+            var lignesAventuriers = lignes.Where(x => x.Type == TypeLigne.A);
             foreach (var ligne in lignesAventuriers)
             {
                 var nom = ligne.ContenuCase[0];
