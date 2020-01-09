@@ -6,7 +6,7 @@ namespace CarteAuxTresors
     {
         static void Main(string[] args)
         {
-            var partie = new Partie(new FichierIO());
+            var partie = new Partie(new FichierIO(@"C:\Users\Ines\Documents\in.txt"));
             partie.Initialiser();
             partie.Jouer();
             partie.Resultat();

@@ -10,18 +10,20 @@ namespace CarteAuxTresors
     public class FichierIO : IEntrepot
     {
         private readonly IFileSystem _fileSystem;
+        private readonly string _source;
 
-        public FichierIO() : this(new FileSystem()) { }
+        public FichierIO(string source) : this(new FileSystem(), source) { }
 
-        public FichierIO(IFileSystem fileSystem)
+        public FichierIO(IFileSystem fileSystem, string source)
         {
             _fileSystem = fileSystem;
+            _source = source;
         }
 
-        public IList<string> RecupererDonnees(string source)
+        public IList<string> RecupererDonnees()
         {
             var lignes = new List<string>();
-            using (StreamReader inputReader = _fileSystem.File.OpenText(source))
+            using (StreamReader inputReader = _fileSystem.File.OpenText(_source))
             {
                 while (!inputReader.EndOfStream)
                 {
@@ -30,32 +32,11 @@ namespace CarteAuxTresors
             }
 
             return lignes;
-            //using (StreamReader inputReader = _fileSystem.File.OpenText(source))
-            //{
-            //    while (!inputReader.EndOfStream)
-            //    {
-            //        var lines = inputReader.ReadLine().Split(" - ").ToList();
-            //        try
-            //        {
-            //            var type = (TypeLigne)Enum.Parse(typeof(TypeLigne), lines[0]);
-            //            lines.RemoveAt(0);
-            //            lignes.Add(new Ligne
-            //            {
-            //                Type = type,
-            //                Contenu = lines
-            //            });
-            //        }
-            //        catch (Exception)
-            //        {
-
-            //        }
-            //    }
-            //}
-            //return lignes;
         }
-        public void Enregistrer(IList<string> lignes, string destination)
+        public void Enregistrer(IList<string> lignes)
         {
-            using (StreamWriter outputWriter = _fileSystem.File.CreateText(destination))
+            string fichierSortie = Path.ChangeExtension(_source, ".out.txt");
+            using (StreamWriter outputWriter = _fileSystem.File.CreateText(fichierSortie))
             {
                 foreach(var ligne in lignes)
                 {

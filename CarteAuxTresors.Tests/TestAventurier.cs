@@ -12,17 +12,6 @@ namespace CarteAuxTresors.Tests
         public void Setup()
         {
             _carte = Carte.Instance.Initialiser(
-              //new List<Ligne>
-              //{
-              //      new Ligne{Type=TypeLigne.C, Contenu=new List<string>{"3", "4"}},
-              //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"1", "0"}},
-              //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"2", "1"}},
-              //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"0", "3", "2"}},
-              //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"1", "3", "3"}},
-              //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
-              //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Luca", "0", "1", "S", "AADADA"}},
-              //});
-
             new List<string>
               {
                   "C - 3 - 4",

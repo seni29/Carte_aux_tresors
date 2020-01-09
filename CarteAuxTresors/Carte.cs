@@ -14,55 +14,6 @@ namespace CarteAuxTresors
 
         public Case[,] Cases { get; set; }
 
-        //public Carte Initialiser(IList<Ligne> lignes)
-        //{
-        //    if (lignes[0].Type == TypeLigne.C)
-        //    {
-        //        var largeur = int.Parse(lignes[0].Contenu[0]);
-        //        var hauteur = int.Parse(lignes[0].Contenu[1]);
-        //        Cases = new Case[largeur, hauteur];
-
-        //        for (int i = 1; i < lignes.Count; i++)
-        //        {
-        //            switch (lignes[i].Type)
-        //            {
-        //                case TypeLigne.M:
-        //                    {
-        //                        var axeHorizontal = int.Parse(lignes[i].Contenu[0]);
-        //                        var axeVertical = int.Parse(lignes[i].Contenu[1]);
-        //                        Cases[axeHorizontal, axeVertical] = new Montagne();
-        //                        break;
-        //                    }
-
-        //                case TypeLigne.T:
-        //                    {
-        //                        var axeHorizontal = int.Parse(lignes[i].Contenu[0]);
-        //                        var axeVertical = int.Parse(lignes[i].Contenu[1]);
-        //                        var nombreTresors = int.Parse(lignes[i].Contenu[2]);
-        //                        Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
-        //                        break;
-        //                    }
-        //                case TypeLigne.A:
-        //                    {
-        //                        var axeHorizontal = int.Parse(lignes[i].Contenu[1]);
-        //                        var axeVertical = int.Parse(lignes[i].Contenu[2]);
-        //                        if (Cases[axeHorizontal, axeVertical] == null)
-        //                            Cases[axeHorizontal, axeVertical] = new Plaine();
-        //                        Cases[axeHorizontal, axeVertical].Occuper();
-        //                        break;
-        //                    }
-        //            }
-
-        //        }
-
-        //        for (int i = 0; i < largeur; i++)
-        //            for (int j = 0; j < hauteur; j++)
-        //                if (Cases[i, j] == null)
-        //                    Cases[i, j] = new Plaine();
-        //    }
-        //    return this;
-        //}
-
         public Carte Initialiser(IList<string> lignes)
         {
             try

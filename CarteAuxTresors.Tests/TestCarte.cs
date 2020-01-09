@@ -9,15 +9,6 @@ namespace CarteAuxTresors.Tests
         [TestMethod]
         public void VerifierInitialisation()
         {
-            //var carte = Carte.Instance.Initialiser(
-            //  new List<Ligne>
-            //  {
-            //        new Ligne{Type=TypeLigne.C, Contenu=new List<string>{"3", "4"}},
-            //        new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"1", "0"}},
-            //        new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"0", "3", "2"}},
-            //        new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
-            //  });
-
             var carte = Carte.Instance.Initialiser(
               new List<string>
               {

@@ -12,16 +12,7 @@ namespace CarteAuxTresors.Tests
         public void VerifierInitialisation()
         {
             var entrepot = Mock.Of<IEntrepot>();
-            Mock.Get(entrepot).Setup(x => x.RecupererDonnees(It.IsAny<string>())).Returns(
-            //   new List<Ligne>
-            //{
-            //      new Ligne{Type=TypeLigne.C, Contenu=new List<string>{"3", "4"}},
-            //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"1", "0"}},
-            //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"1", "3", "3"}},
-            //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
-            //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Lara", "2", "3", "N", "AAGAG"}},
-            //});
-
+            Mock.Get(entrepot).Setup(x => x.RecupererDonnees()).Returns(
             new List<string>
               {
                   "C - 3 - 4",
@@ -61,18 +52,7 @@ namespace CarteAuxTresors.Tests
         public void VerifierJeu()
         {
             var entrepot = Mock.Of<IEntrepot>();
-            Mock.Get(entrepot).Setup(x => x.RecupererDonnees(It.IsAny<string>())).Returns(
-              //   new List<Ligne>
-              //{
-              //      new Ligne{Type=TypeLigne.C, Contenu=new List<string>{"3", "4"}},
-              //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"1", "0"}},
-              //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"2", "1"}},
-              //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"0", "3", "2"}},
-              //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"1", "3", "3"}},
-              //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Indiana", "1", "1", "S", "AADADAGGA"}},
-              //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Lara", "0", "0", "S", "AAGAGAGAD"}},
-              //});
-
+            Mock.Get(entrepot).Setup(x => x.RecupererDonnees()).Returns(
             new List<string>
               {
                   "C - 3 - 4",
@@ -115,33 +95,6 @@ namespace CarteAuxTresors.Tests
             Assert.AreEqual("T - 1 - 3 - 2", resultat[3]);
             Assert.AreEqual("A - Indiana - 0 - 3 - S - 3", resultat[4]);
             Assert.AreEqual("A - Lara - 0 - 1 - N - 0", resultat[5]);
-
-            //Assert.AreEqual(TypeLigne.M, resultat[1].Type);
-            //Assert.AreEqual("1", resultat[1].Contenu[0]);
-            //Assert.AreEqual("0", resultat[1].Contenu[1]);
-
-            //Assert.AreEqual(TypeLigne.M, resultat[2].Type);
-            //Assert.AreEqual("2", resultat[2].Contenu[0]);
-            //Assert.AreEqual("1", resultat[2].Contenu[1]);
-
-            //Assert.AreEqual(TypeLigne.T, resultat[3].Type);
-            //Assert.AreEqual("1", resultat[3].Contenu[0]);
-            //Assert.AreEqual("3", resultat[3].Contenu[1]);
-            //Assert.AreEqual("2", resultat[3].Contenu[2]);
-
-            //Assert.AreEqual(TypeLigne.A, resultat[4].Type);
-            //Assert.AreEqual("Indiana", resultat[4].Contenu[0]);
-            //Assert.AreEqual("0", resultat[4].Contenu[1]);
-            //Assert.AreEqual("3", resultat[4].Contenu[2]);
-            //Assert.AreEqual("S", resultat[4].Contenu[3]);
-            //Assert.AreEqual("3", resultat[4].Contenu[4]);
-
-            //Assert.AreEqual(TypeLigne.A, resultat[5].Type);
-            //Assert.AreEqual("Lara", resultat[5].Contenu[0]);
-            //Assert.AreEqual("0", resultat[5].Contenu[1]);
-            //Assert.AreEqual("1", resultat[5].Contenu[2]);
-            //Assert.AreEqual("N", resultat[5].Contenu[3]);
-            //Assert.AreEqual("0", resultat[5].Contenu[4]);
         }
 
 

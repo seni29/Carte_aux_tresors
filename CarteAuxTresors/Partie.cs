@@ -24,7 +24,7 @@ namespace CarteAuxTresors
         }
         public Partie Initialiser()
         {
-            var lignes = _entrepot.RecupererDonnees(@"c:\in.txt");
+            var lignes = _entrepot.RecupererDonnees();
             InitialiserCarte(lignes);
             InitialiserAventuriers(lignes);
             return this;
@@ -41,57 +41,6 @@ namespace CarteAuxTresors
             }
 
         }
-
-        //public IList<Ligne> Resultat()
-        //{
-        //    var cases = Carte.Cases;
-        //    var lignes = new List<Ligne>();
-        //    int largeur = cases.GetLength(0);
-        //    int hauteur = cases.GetLength(1);
-        //    var dimensions = new Ligne
-        //    {
-        //        Type = TypeLigne.C,
-        //        Contenu = new List<string> { largeur.ToString(), hauteur.ToString() }
-        //    };
-        //    lignes.Add(dimensions);
-
-        //    for (int i = 0; i < hauteur; i++)
-        //        for (int j = 0; j < largeur; j++)
-        //        {
-        //            if (cases[j,i] is Montagne)
-        //                lignes.Add(new Ligne
-        //                {
-        //                    Type = TypeLigne.M,
-        //                    Contenu = new List<string> { j.ToString(), i.ToString() }
-        //                });
-        //            else if (cases[j,i] is Tresor)
-        //            {
-        //                var tresor = (Tresor)cases[j, i];
-        //                if (tresor.EstLibre && tresor.NbTresors > 0)
-        //                    lignes.Add(new Ligne
-        //                    {
-        //                        Type = TypeLigne.T,
-        //                        Contenu = new List<string> { j.ToString(), i.ToString(), tresor.NbTresors.ToString() }
-        //                    });
-        //            }
-        //        }
-
-        //    foreach (var aventurier in Aventuriers)
-        //        lignes.Add(new Ligne
-        //        {
-        //            Type = TypeLigne.A,
-        //            Contenu = new List<string> {
-        //                aventurier.Nom,
-        //                aventurier.Position.AxeHorizontal.ToString(),
-        //                aventurier.Position.AxeVertical.ToString(),
-        //                aventurier.Orientation.ToString(),
-        //                aventurier.NbTresors.ToString()
-        //            }
-        //        });
-
-        //    return lignes;
-
-        //}
 
         public IList<string> Resultat()
         {
@@ -119,7 +68,7 @@ namespace CarteAuxTresors
                 lignes.Add(TypeLigne.A + " - " + aventurier.Nom + " - " + aventurier.Position.AxeHorizontal + " - " 
                     + aventurier.Position.AxeVertical + " - " + aventurier.Orientation + " - " + aventurier.NbTresors);
 
-            _entrepot.Enregistrer(lignes, @"c:\out.txt");
+            _entrepot.Enregistrer(lignes);
             return lignes;
 
         }
@@ -128,21 +77,6 @@ namespace CarteAuxTresors
         {
             Carte = Carte.Instance.Initialiser(lignes);
         }
-
-        //private void InitialiserAventuriers(IList<Ligne> lignes)
-        //{
-        //    var lignesAventuriers = lignes.Where(x => x.Type == TypeLigne.A);
-        //    foreach (var ligne in lignesAventuriers)
-        //    {
-        //        var nom = ligne.Contenu[0];
-        //        var axeHorizontal = int.Parse(ligne.Contenu[1]);
-        //        var axeVertical = int.Parse(ligne.Contenu[2]);
-        //        var orientation = (Orientation)Enum.Parse(typeof(Orientation), ligne.Contenu[3]);
-        //        var sequenceMouvements = ligne.Contenu[4];
-        //        var position = new Position(axeHorizontal, axeVertical);
-        //        Aventuriers.Add(new Aventurier(nom, position, orientation, sequenceMouvements));
-        //    }
-        //}
 
         private void InitialiserAventuriers(IList<string> lignes)
         {
