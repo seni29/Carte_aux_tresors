@@ -6,6 +6,7 @@ using System.Linq;
 
 namespace CarteAuxTresors
 {
+    public enum TypeLigne { C, M, T, A }
     public class FichierIO : IEntrepot
     {
         private readonly IFileSystem _fileSystem;
@@ -17,37 +18,54 @@ namespace CarteAuxTresors
             _fileSystem = fileSystem;
         }
 
-        public void Enregistrer(IList<Ligne> lignes)
+        public IList<string> RecupererDonnees(string source)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public IList<Ligne> RecupererDonnees(string fichierPath)
-        {
-            var lignes = new List<Ligne>();
-            using (StreamReader inputReader = _fileSystem.File.OpenText(fichierPath))
+            var lignes = new List<string>();
+            using (StreamReader inputReader = _fileSystem.File.OpenText(source))
             {
                 while (!inputReader.EndOfStream)
                 {
-                    var lines = inputReader.ReadLine().Split(" - ").ToList();
-                    try
-                    {
-                        var type = (TypeLigne)Enum.Parse(typeof(TypeLigne), lines[0]);
-                        lines.RemoveAt(0);
-                        lignes.Add(new Ligne
-                        {
-                            Type = type,
-                            ContenuCase = lines
-                        });
-                    }
-                    catch(Exception)
-                    {
-
-                    }
+                    lignes.Add(inputReader.ReadLine());
                 }
             }
+
             return lignes;
+            //using (StreamReader inputReader = _fileSystem.File.OpenText(source))
+            //{
+            //    while (!inputReader.EndOfStream)
+            //    {
+            //        var lines = inputReader.ReadLine().Split(" - ").ToList();
+            //        try
+            //        {
+            //            var type = (TypeLigne)Enum.Parse(typeof(TypeLigne), lines[0]);
+            //            lines.RemoveAt(0);
+            //            lignes.Add(new Ligne
+            //            {
+            //                Type = type,
+            //                Contenu = lines
+            //            });
+            //        }
+            //        catch (Exception)
+            //        {
+
+            //        }
+            //    }
+            //}
+            //return lignes;
         }
+        public void Enregistrer(IList<string> lignes, string destination)
+        {
+            using (StreamWriter outputWriter = _fileSystem.File.CreateText(destination))
+            {
+                foreach(var ligne in lignes)
+                {
+                    outputWriter.WriteLine(ligne);
+                }
+
+            }
+        }
+
+    
     }
 
     }

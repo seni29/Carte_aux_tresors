@@ -12,16 +12,29 @@ namespace CarteAuxTresors.Tests
         public void Setup()
         {
             _carte = Carte.Instance.Initialiser(
-              new List<Ligne>
+              //new List<Ligne>
+              //{
+              //      new Ligne{Type=TypeLigne.C, Contenu=new List<string>{"3", "4"}},
+              //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"1", "0"}},
+              //      new Ligne{Type=TypeLigne.M, Contenu=new List<string>{"2", "1"}},
+              //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"0", "3", "2"}},
+              //      new Ligne{Type=TypeLigne.T, Contenu=new List<string>{"1", "3", "3"}},
+              //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
+              //      new Ligne{Type=TypeLigne.A, Contenu=new List<string>{"Luca", "0", "1", "S", "AADADA"}},
+              //});
+
+            new List<string>
               {
-                    new Ligne{Type=TypeLigne.C, ContenuCase=new List<string>{"3", "4"}},
-                    new Ligne{Type=TypeLigne.M, ContenuCase=new List<string>{"1", "0"}},
-                    new Ligne{Type=TypeLigne.M, ContenuCase=new List<string>{"2", "1"}},
-                    new Ligne{Type=TypeLigne.T, ContenuCase=new List<string>{"0", "3", "2"}},
-                    new Ligne{Type=TypeLigne.T, ContenuCase=new List<string>{"1", "3", "3"}},
-                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Indiana", "1", "1", "S", "AADADA"}},
-                    new Ligne{Type=TypeLigne.A, ContenuCase=new List<string>{"Luca", "0", "1", "S", "AADADA"}},
+                  "C - 3 - 4",
+                  "M - 1 - 0",
+                  "M - 2 - 1",
+                  "T - 0 - 3 - 2",
+                  "T - 1 - 3 - 3",
+                  "A - Indiana - 1 - 1 - S - AADADA",
+                  "A - Lara - 0 - 1 - S - AADADA"
+
               });
+
 
         }
 

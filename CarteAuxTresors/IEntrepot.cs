@@ -4,7 +4,7 @@ namespace CarteAuxTresors
 {
     public interface IEntrepot
     {
-        IList<Ligne> RecupererDonnees(string fichierPath);
-        void Enregistrer(IList<Ligne> lignes);
+        IList<string> RecupererDonnees(string source);
+        void Enregistrer(IList<string> lignes, string destination);
     }
 }

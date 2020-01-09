@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CarteAuxTresors
 {
@@ -13,45 +14,105 @@ namespace CarteAuxTresors
 
         public Case[,] Cases { get; set; }
 
-        public Carte Initialiser(IList<Ligne> lignes)
+        //public Carte Initialiser(IList<Ligne> lignes)
+        //{
+        //    if (lignes[0].Type == TypeLigne.C)
+        //    {
+        //        var largeur = int.Parse(lignes[0].Contenu[0]);
+        //        var hauteur = int.Parse(lignes[0].Contenu[1]);
+        //        Cases = new Case[largeur, hauteur];
+
+        //        for (int i = 1; i < lignes.Count; i++)
+        //        {
+        //            switch (lignes[i].Type)
+        //            {
+        //                case TypeLigne.M:
+        //                    {
+        //                        var axeHorizontal = int.Parse(lignes[i].Contenu[0]);
+        //                        var axeVertical = int.Parse(lignes[i].Contenu[1]);
+        //                        Cases[axeHorizontal, axeVertical] = new Montagne();
+        //                        break;
+        //                    }
+
+        //                case TypeLigne.T:
+        //                    {
+        //                        var axeHorizontal = int.Parse(lignes[i].Contenu[0]);
+        //                        var axeVertical = int.Parse(lignes[i].Contenu[1]);
+        //                        var nombreTresors = int.Parse(lignes[i].Contenu[2]);
+        //                        Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
+        //                        break;
+        //                    }
+        //                case TypeLigne.A:
+        //                    {
+        //                        var axeHorizontal = int.Parse(lignes[i].Contenu[1]);
+        //                        var axeVertical = int.Parse(lignes[i].Contenu[2]);
+        //                        if (Cases[axeHorizontal, axeVertical] == null)
+        //                            Cases[axeHorizontal, axeVertical] = new Plaine();
+        //                        Cases[axeHorizontal, axeVertical].Occuper();
+        //                        break;
+        //                    }
+        //            }
+
+        //        }
+
+        //        for (int i = 0; i < largeur; i++)
+        //            for (int j = 0; j < hauteur; j++)
+        //                if (Cases[i, j] == null)
+        //                    Cases[i, j] = new Plaine();
+        //    }
+        //    return this;
+        //}
+
+        public Carte Initialiser(IList<string> lignes)
         {
-            if (lignes[0].Type == TypeLigne.C)
+            try
             {
-                var largeur = int.Parse(lignes[0].ContenuCase[0]);
-                var hauteur = int.Parse(lignes[0].ContenuCase[1]);
+                var ligneInitCarte = lignes.Single(x => x.StartsWith(TypeLigne.C.ToString())).Split(" - ");
+                var largeur = int.Parse(ligneInitCarte[1]);
+                var hauteur = int.Parse(ligneInitCarte[2]);
                 Cases = new Case[largeur, hauteur];
 
-                for (int i = 1; i < lignes.Count; i++)
+
+                var lignesContenuCarte = lignes.Where(x => !x.StartsWith(TypeLigne.C.ToString()));
+                foreach (var ligne in lignesContenuCarte)
                 {
-                    switch (lignes[i].Type)
+                    var itemsLigne = ligne.Split(" - ").ToList();
+                    try
                     {
-                        case TypeLigne.M:
-                            {
-                                var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                                var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                                Cases[axeHorizontal, axeVertical] = new Montagne();
-                                break;
-                            }
+                        var type = (TypeLigne)Enum.Parse(typeof(TypeLigne), itemsLigne[0]);
+                        switch (type)
+                        {
+                            case TypeLigne.M:
+                                {
+                                    var axeHorizontal = int.Parse(itemsLigne[1]);
+                                    var axeVertical = int.Parse(itemsLigne[2]);
+                                    Cases[axeHorizontal, axeVertical] = new Montagne();
+                                    break;
+                                }
 
-                        case TypeLigne.T:
-                            {
-                                var axeHorizontal = int.Parse(lignes[i].ContenuCase[0]);
-                                var axeVertical = int.Parse(lignes[i].ContenuCase[1]);
-                                var nombreTresors = int.Parse(lignes[i].ContenuCase[2]);
-                                Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
-                                break;
-                            }
-                        case TypeLigne.A:
-                            {
-                                var axeHorizontal = int.Parse(lignes[i].ContenuCase[1]);
-                                var axeVertical = int.Parse(lignes[i].ContenuCase[2]);
-                                if (Cases[axeHorizontal, axeVertical] == null)
-                                    Cases[axeHorizontal, axeVertical] = new Plaine();
-                                Cases[axeHorizontal, axeVertical].Occuper();
-                                break;
-                            }
+                            case TypeLigne.T:
+                                {
+                                    var axeHorizontal = int.Parse(itemsLigne[1]);
+                                    var axeVertical = int.Parse(itemsLigne[2]);
+                                    var nombreTresors = int.Parse(itemsLigne[3]);
+                                    Cases[axeHorizontal, axeVertical] = new Tresor(nombreTresors);
+                                    break;
+                                }
+                            case TypeLigne.A:
+                                {
+                                    var axeHorizontal = int.Parse(itemsLigne[2]);
+                                    var axeVertical = int.Parse(itemsLigne[3]);
+                                    if (Cases[axeHorizontal, axeVertical] == null)
+                                        Cases[axeHorizontal, axeVertical] = new Plaine();
+                                    Cases[axeHorizontal, axeVertical].Occuper();
+                                    break;
+                                }
+                        }
                     }
+                    catch (Exception)
+                    {
 
+                    }
                 }
 
                 for (int i = 0; i < largeur; i++)
@@ -59,20 +120,13 @@ namespace CarteAuxTresors
                         if (Cases[i, j] == null)
                             Cases[i, j] = new Plaine();
             }
+            catch (Exception e)
+            {
+                Console.WriteLine("Intialisation de la carte impossible\n" + e);
+            }
+
             return this;
         }
-        //public void Initialiser(int largeur, int hauteur)
-        //{
-        //    Cases = new Case[largeur, hauteur];
-            
-        //}
-
-        //public void Positionner(Position position, Case element)
-        //{
-        //    Cases[position.AxeHorizontal, position.AxeHorizontal] = element;
-        //}
-
-       
 
         public Case Recuperer(Position position)
         {
